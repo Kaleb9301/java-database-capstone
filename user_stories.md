@@ -199,7 +199,7 @@ _As a patient, I want to view my upcoming appointments, so that I can prepare ac
 - Add calendar or reminder integration if possible.  
 - Allow cancellation or rescheduling (future enhancement).
 
-# Exercise 4: Define Doctor User Stories
+# Define Doctor User Stories
 
 ---
 

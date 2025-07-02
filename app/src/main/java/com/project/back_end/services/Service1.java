@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,11 +89,11 @@ public class Service1 {
         if (name != null && !name.isBlank() &&
             specialty != null && !specialty.isBlank() &&
             timePeriod != null && !timePeriod.isBlank()) {
-            return doctorService.filterDoctorsByNameSpecilityandTime(name, specialty, timePeriod);
+            return doctorService.filterDoctorsByNameSpecialityAndTime(name, specialty, timePeriod);
         }
 
         if (name != null && !name.isBlank() && specialty != null && !specialty.isBlank()) {
-            return doctorService.filterDoctorByNameAndSpecility(name, specialty);
+            return doctorService.filterDoctorByNameAndSpecialty(name, specialty);
         }
 
         if (name != null && !name.isBlank() && timePeriod != null && !timePeriod.isBlank()) {
@@ -100,7 +101,7 @@ public class Service1 {
         }
 
         if (specialty != null && !specialty.isBlank() && timePeriod != null && !timePeriod.isBlank()) {
-            return doctorService.filterDoctorByTimeAndSpecility(timePeriod, specialty);
+            return doctorService.filterDoctorByTimeAndSpecialty(timePeriod, specialty);
         }
 
         if (name != null && !name.isBlank()) {
@@ -108,7 +109,7 @@ public class Service1 {
         }
 
         if (specialty != null && !specialty.isBlank()) {
-            return doctorService.filterDoctorBySpecility(specialty);
+            return doctorService.filterDoctorBySpecialty(specialty);
         }
 
         if (timePeriod != null && !timePeriod.isBlank()) {
@@ -126,7 +127,7 @@ public class Service1 {
             return -1; // Doctor not found
         }
         Doctor doctor = doctorOpt.get();
-        List<String> availableTimes = doctorService.getDoctorAvailability(doctorId, appointmentDate);
+        List<LocalTime> availableTimes = doctorService.getDoctorAvailability(doctorId, appointmentDate.toString());
 
         // Check if appointmentTime is in availableTimes
         if (availableTimes.contains(appointmentTime)) {
@@ -164,7 +165,7 @@ public class Service1 {
     @Transactional
     public ResponseEntity<?> filterPatient(String token, String condition, String doctorName) {
         try {
-            String email = tokenService.extractUsername(token);
+            String email = tokenService.extractEmail(token);
             if (email == null || email.isBlank()) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token.");
             }

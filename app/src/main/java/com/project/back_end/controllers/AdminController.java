@@ -21,8 +21,8 @@ public class AdminController {
 
     // 3. Admin login endpoint
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> adminLogin(@RequestBody Admin admin) {
+    public ResponseEntity<?> adminLogin(@RequestBody Admin admin) {
         // Delegates login validation to the service layer
-        return service.validateAdmin(admin);
+        return service.validateAdmin(admin.getUsername(), admin.getPassword());
     }
 }

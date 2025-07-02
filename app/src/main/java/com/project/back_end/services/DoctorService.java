@@ -48,6 +48,7 @@ public class DoctorService {
                 .collect(Collectors.toSet());
 
         return doctor.getAvailableTimes().stream()
+                .map(LocalTime::parse)
                 .filter(time -> !bookedTimes.contains(time))
                 .collect(Collectors.toList());
     }

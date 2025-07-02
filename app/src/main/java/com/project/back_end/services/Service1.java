@@ -45,18 +45,14 @@ public class Service1 {
     }
 
     /** 3. validateToken Method **/
-    public ResponseEntity<String> validateToken(String token, String username) {
+    public boolean validateToken(String token, String username) {
         try {
-            if (token == null || token.isEmpty() || !tokenService.validateToken(token, username)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body("Invalid or expired token.");
-            }
-            return ResponseEntity.ok("Token is valid.");
+            return token != null && !token.isEmpty() && tokenService.validateToken(token, username);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred during token validation.");
+            return false;
         }
     }
+    
 
     /** 4. validateAdmin Method **/
     public ResponseEntity<?> validateAdmin(String username, String password) {

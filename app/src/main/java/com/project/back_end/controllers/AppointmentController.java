@@ -3,6 +3,7 @@ package com.project.back_end.controllers;
 import com.project.back_end.models.Appointment;
 import com.project.back_end.services.AppointmentService;
 import com.project.back_end.services.Service1;
+import com.project.back_end.services.TokenService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ public class AppointmentController {
 
     private final AppointmentService appointmentService;
     private final Service1 service;
+    private final TokenService tokenService;
+    
 
     // 2. Constructor injection
     public AppointmentController(AppointmentService appointmentService, Service1 service) {
@@ -46,7 +50,11 @@ public class AppointmentController {
                     .body(Map.of("message", "Invalid date format. Use yyyy-MM-dd"));
         }
 
-        List<?> appointments = appointmentService.getAppointments(appointmentDate, patientName);
+        Long doctorId = tokenService.extractDoctorId(token);
+        LocalDateTime start = appointmentDate.atStartOfDay();
+        LocalDateTime end = appointmentDate.atTime(LocalTime.MAX);
+
+        List<?> appointments = appointmentService.getAppointments(doctorId, start, end, patientName);
         return ResponseEntity.ok(appointments);
     }
 

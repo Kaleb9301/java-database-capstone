@@ -112,4 +112,19 @@ public class TokenService {
             return false;
         }
     }
+
+        public Long extractDoctorId(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            return claims.get("doctorId", Long.class);
+        } catch (Exception e) {
+            // Log exception
+            return null;
+        }
+    }
+
 }

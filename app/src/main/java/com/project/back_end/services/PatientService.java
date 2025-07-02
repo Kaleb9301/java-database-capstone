@@ -45,8 +45,19 @@ public class PatientService {
         try {
             List<Appointment> appointments = appointmentRepository.findByPatientId(patientId);
             List<AppointmentDTO> dtoList = appointments.stream()
-                    .map(AppointmentDTO::new)
-                    .collect(Collectors.toList());
+            .map(a -> new AppointmentDTO(
+                a.getId(),
+                a.getDoctor().getId(),
+                a.getDoctor().getName(),
+                a.getPatient().getId(),
+                a.getPatient().getName(),
+                a.getPatient().getEmail(),
+                a.getPatient().getPhone(),
+                a.getPatient().getAddress(),
+                a.getAppointmentTime(),
+                a.getStatus()
+            ))
+            .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
         } catch (Exception e) {
             // Log error here
@@ -68,7 +79,18 @@ public class PatientService {
 
             List<Appointment> appointments = appointmentRepository.findByPatient_IdAndStatusOrderByAppointmentTimeAsc(patientId, status);
             List<AppointmentDTO> dtoList = appointments.stream()
-                    .map(AppointmentDTO::new)
+                    .map(a -> new AppointmentDTO(
+                        a.getId(),
+                        a.getDoctor().getId(),
+                        a.getDoctor().getName(),
+                        a.getPatient().getId(),
+                        a.getPatient().getName(),
+                        a.getPatient().getEmail(),
+                        a.getPatient().getPhone(),
+                        a.getPatient().getAddress(),
+                        a.getAppointmentTime(),
+                        a.getStatus()
+                    ))
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
         } catch (Exception e) {
@@ -80,9 +102,20 @@ public class PatientService {
     @Transactional
     public ResponseEntity<List<AppointmentDTO>> filterByDoctor(Long patientId, String doctorName) {
         try {
-            List<Appointment> appointments = appointmentRepository.filterByDoctorNameAndPatientId(doctorName, patientId);
+            List<Appointment> appointments = appointmentRepository.findByDoctor_NameContainingIgnoreCaseAndPatientId(doctorName, patientId);
             List<AppointmentDTO> dtoList = appointments.stream()
-                    .map(AppointmentDTO::new)
+                    .map(a -> new AppointmentDTO(
+                        a.getId(),
+                        a.getDoctor().getId(),
+                        a.getDoctor().getName(),
+                        a.getPatient().getId(),
+                        a.getPatient().getName(),
+                        a.getPatient().getEmail(),
+                        a.getPatient().getPhone(),
+                        a.getPatient().getAddress(),
+                        a.getAppointmentTime(),
+                        a.getStatus()
+                    ))
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
         } catch (Exception e) {
@@ -103,9 +136,20 @@ public class PatientService {
                 return ResponseEntity.badRequest().build();
             }
 
-            List<Appointment> appointments = appointmentRepository.filterByDoctorNameAndPatientIdAndStatus(doctorName, patientId, status);
+            List<Appointment> appointments = appointmentRepository.findByDoctor_NameContainingIgnoreCaseAndPatientIdAndStatus(doctorName, patientId, status);
             List<AppointmentDTO> dtoList = appointments.stream()
-                    .map(AppointmentDTO::new)
+                    .map(a -> new AppointmentDTO(
+                        a.getId(),
+                        a.getDoctor().getId(),
+                        a.getDoctor().getName(),
+                        a.getPatient().getId(),
+                        a.getPatient().getName(),
+                        a.getPatient().getEmail(),
+                        a.getPatient().getPhone(),
+                        a.getPatient().getAddress(),
+                        a.getAppointmentTime(),
+                        a.getStatus()
+                    ))
                     .collect(Collectors.toList());
             return ResponseEntity.ok(dtoList);
         } catch (Exception e) {

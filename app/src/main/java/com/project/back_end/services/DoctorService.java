@@ -106,6 +106,7 @@ public class DoctorService {
 
     public List<Doctor> filterDoctorByTime(List<Doctor> doctors, String timePeriod) {
         return doctors.stream().filter(d -> d.getAvailableTimes().stream()
+                .map(LocalTime::parse)
                 .anyMatch(time -> isInTimePeriod(time, timePeriod)))
                 .collect(Collectors.toList());
     }

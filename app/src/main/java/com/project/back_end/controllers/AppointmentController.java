@@ -87,25 +87,32 @@ public class AppointmentController {
         }
     }
 
-    // 5. Update an existing appointment
     @PutMapping("/update/{token}")
-    public ResponseEntity<?> updateAppointment(
-            @RequestBody @Valid Appointment appointment,
-            @PathVariable String token) {
+public ResponseEntity<?> updateAppointment(
+        @RequestBody @Valid Appointment appointment,
+        @PathVariable String token) {
 
-        if (!service.validateToken(token, "patient")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Invalid or expired token"));
-        }
-
-        String result = appointmentService.updateAppointment(appointment);
-        if ("success".equalsIgnoreCase(result)) {
-            return ResponseEntity.ok(Map.of("message", "Appointment updated successfully"));
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(Map.of("message", result));
-        }
+    if (!service.validateToken(token, "patient")) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("message", "Invalid or expired token"));
     }
+
+    // ✅ Extract the ID from the appointment
+    Long appointmentId = appointment.getId();
+    if (appointmentId == null) {
+        return ResponseEntity.badRequest()
+                .body(Map.of("message", "Appointment ID is required"));
+    }
+
+    String result = appointmentService.updateAppointment(appointmentId, appointment);
+
+    if ("Appointment updated successfully".equalsIgnoreCase(result)) {
+        return ResponseEntity.ok(Map.of("message", result));
+    } else {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("message", result));
+    }
+}
 
     // 6. Cancel an appointment
     @DeleteMapping("/cancel/{appointmentId}/{token}")

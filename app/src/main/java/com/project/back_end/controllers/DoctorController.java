@@ -3,7 +3,7 @@ package com.project.back_end.controllers;
 import com.project.back_end.models.Doctor;
 import com.project.back_end.DTO.Login;
 import com.project.back_end.services.DoctorService;
-import com.project.back_end.services.Service; // shared service
+import com.project.back_end.services.Service1; // shared service
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class DoctorController {
     private DoctorService doctorService;
 
     @Autowired
-    private Service service; // shared utility service for token validation and filtering
+    private Service1 service; // shared utility service for token validation and filtering
 
     // 3. Check Doctor Availability
     @GetMapping("/availability/{user}/{doctorId}/{date}/{token}")

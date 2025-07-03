@@ -127,4 +127,14 @@ public class TokenService {
         }
     }
 
+        public Long extractPatientId(String token) {
+        Claims claims = Jwts.parser()
+                            .setSigningKey(getSigningKey()) // or your key logic
+                            .build()
+                            .parseClaimsJws(token)
+                            .getBody();
+        return Long.valueOf(claims.get("id").toString());
+    }
+
+
 }

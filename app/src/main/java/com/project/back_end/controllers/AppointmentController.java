@@ -26,9 +26,10 @@ public class AppointmentController {
     
 
     // 2. Constructor injection
-    public AppointmentController(AppointmentService appointmentService, Service1 service) {
+    public AppointmentController(AppointmentService appointmentService, Service1 service, TokenService tokenService) {
         this.appointmentService = appointmentService;
         this.service = service;
+        this.tokenService = tokenService;
     }
 
     // 3. Get appointments by date and patient name for a doctor
@@ -119,12 +120,12 @@ public ResponseEntity<?> updateAppointment(
     public ResponseEntity<?> cancelAppointment(
             @PathVariable Long appointmentId,
             @PathVariable String token) {
-
+    
         if (!service.validateToken(token, "patient")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("message", "Invalid or expired token"));
         }
-
+    
         String result = appointmentService.cancelAppointment(appointmentId, token);
         if ("success".equalsIgnoreCase(result)) {
             return ResponseEntity.ok(Map.of("message", "Appointment canceled successfully"));
@@ -133,4 +134,5 @@ public ResponseEntity<?> updateAppointment(
                     .body(Map.of("message", result));
         }
     }
+    
 }

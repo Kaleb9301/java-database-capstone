@@ -146,4 +146,46 @@ public class DoctorService {
         }
         return false;
     }
+
+    public boolean checkAvailability(Long doctorId, String date) {
+    List<LocalTime> availableTimes = getDoctorAvailability(doctorId, date);
+    return !availableTimes.isEmpty();
+    }
+
+       
+    @Transactional
+    public boolean existsByEmail(String email) {
+        return doctorRepository.findByEmail(email) != null;
+    }
+
+    
+    @Transactional
+    public void addDoctor(Doctor doctor) {
+        doctorRepository.save(doctor);
+    }
+
+    @Transactional
+    public Map<String, Object> login(Login login) {
+        Map<String, Object> response = new HashMap<>();
+        Doctor doctor = doctorRepository.findByEmail(login.getEmail());
+
+        if (doctor == null || !doctor.getPassword().equals(login.getPassword())) {
+            response.put("success", false);
+            return response;
+        }
+
+        String token = tokenService.generateToken(doctor.getEmail()); // assume you already have this method
+        response.put("success", true);
+        response.put("token", token);
+        response.put("doctorId", doctor.getId());
+        response.put("name", doctor.getName());
+        return response;
+    }
+
+        @Transactional
+    public boolean existsById(Long id) {
+        return doctorRepository.existsById(id);
+    }
+
+
 }

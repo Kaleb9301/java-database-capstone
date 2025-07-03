@@ -45,7 +45,7 @@ public class DoctorController {
     // 4. Get All Doctors
     @GetMapping
     public ResponseEntity<Map<String, List<Doctor>>> getDoctor() {
-        List<Doctor> doctors = doctorService.getAllDoctors();
+        List<Doctor> doctors = doctorService.getDoctors();
         return ResponseEntity.ok(Map.of("doctors", doctors));
     }
 
@@ -131,7 +131,7 @@ public class DoctorController {
             @PathVariable String time,
             @PathVariable String speciality) {
 
-        List<Doctor> filteredDoctors = service.filterDoctors(name, time, speciality);
+        List<Doctor> filteredDoctors = service.filterDoctor(name, time, speciality);
         return ResponseEntity.ok(Map.of("doctors", filteredDoctors));
     }
 }

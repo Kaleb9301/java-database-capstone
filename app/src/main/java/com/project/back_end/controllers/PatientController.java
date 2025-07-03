@@ -39,7 +39,7 @@ public class PatientController {
     @PostMapping("/register")
     public ResponseEntity<?> createPatient(@RequestBody @Valid Patient patient) {
         // Check if patient already exists (email/phone uniqueness)
-        boolean validPatient = service.validatePatient(patient);
+        boolean validPatient = service.validatePatient(patient.getEmail(), patient.getPhone());
         if (!validPatient) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(Map.of("message", "Patient with email or phone already exists"));
@@ -58,7 +58,7 @@ public class PatientController {
     // 5. Patient login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Login loginRequest) {
-        Map<String, Object> response = service.validatePatientLogin(loginRequest);
+        Map<String, Object> response = service.validatePatientLogin(loginRequest.getEmail(), loginRequest.getPassword());
         int status = (int) response.getOrDefault("status", 500);
         return ResponseEntity.status(status).body(response);
     }

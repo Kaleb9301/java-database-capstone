@@ -6,6 +6,7 @@ import com.project.back_end.models.Patient;
 import com.project.back_end.repo.AppointmentRepository;
 import com.project.back_end.repo.DoctorRepository;
 import com.project.back_end.repo.PatientRepository;
+import com.project.back_end.services.TokenService;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,19 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
-
+    private final TokenService tokenService;
+ 
     @Autowired
     public AppointmentService(
             AppointmentRepository appointmentRepository,
             DoctorRepository doctorRepository,
-            PatientRepository patientRepository
+            PatientRepository patientRepository,
+            TokenService tokenService
     ) {
         this.appointmentRepository = appointmentRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
+        this.tokenService = tokenService;
     }
 
     // 4. Book Appointment
@@ -69,7 +73,9 @@ public class AppointmentService {
 
     // 6. Cancel Appointment
     @Transactional
-    public String cancelAppointment(Long appointmentId, Long patientId) {
+    public String cancelAppointment(Long appointmentId, String token) {
+        Long patientId = tokenService.extractPatientId(token); // Assume this method exists and is correct
+
         Optional<Appointment> optional = appointmentRepository.findById(appointmentId);
         if (optional.isEmpty()) return "Appointment not found";
 
@@ -78,8 +84,9 @@ public class AppointmentService {
             return "Unauthorized cancel attempt";
 
         appointmentRepository.deleteById(appointmentId);
-        return "Appointment canceled successfully";
+        return "success";
     }
+
 
     // 7. Get Appointments by Doctor and Date with optional patient name filter
     @Transactional

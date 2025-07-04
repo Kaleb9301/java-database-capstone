@@ -58,9 +58,7 @@ public class PatientController {
     // 5. Patient login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Login loginRequest) {
-        Map<String, Object> response = service.validatePatientLogin(loginRequest.getEmail(), loginRequest.getPassword());
-        int status = (int) response.getOrDefault("status", 500);
-        return ResponseEntity.status(status).body(response);
+        return service.validatePatientLogin(loginRequest.getEmail(), loginRequest.getPassword()); 
     }
 
     // 6. Get appointments for patient
@@ -90,7 +88,7 @@ public class PatientController {
                     .body(Map.of("message", "Invalid or expired token"));
         }
 
-        Map<String, Object> filteredAppointments = service.filterPatient(condition, name, token);
-        return ResponseEntity.ok(filteredAppointments);
+       return service.filterPatient(condition, name, token);
+        
     }
 }

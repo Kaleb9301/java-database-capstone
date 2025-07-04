@@ -36,7 +36,7 @@ public class PrescriptionController {
         }
 
         // Update appointment status to reflect prescription issued (e.g., status = 2)
-        appointmentService.changeStatus(2, prescription.getAppointmentId());
+        appointmentService.changeStatus(prescription.getAppointmentId(), 2);
 
         // Save prescription
         ResponseEntity<?> response = prescriptionService.savePrescription(prescription);

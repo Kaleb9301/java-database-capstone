@@ -1,5 +1,6 @@
 package com.project.back_end.models;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.ElementCollection;
@@ -89,6 +90,14 @@ private String phone;
 @ElementCollection
 private List<String> availableTimes;
 
+private Long yearsOfExperience;
+
+private String clinicAddress;
+
+private Long rating;
+
+
+
 // 8. Getters and Setters:
 //    - Standard getter and setter methods are provided for all fields: id, name, specialty, email, password, phone, and availableTimes.
 
@@ -148,6 +157,32 @@ public List<String> getAvailableTimes() {
 public void setAvailableTimes(List<String> availableTimes) {
     this.availableTimes = availableTimes;
 }
+
+public Long getYearsOfExperience() {
+    return yearsOfExperience;
+}
+
+public void setYearsOfExperience(Long yearsOfExperience) {
+    this.yearsOfExperience = yearsOfExperience;
+}
+
+public String getClinicAddress() {
+    return clinicAddress;
+}
+
+public void setClinicAddress(String clinicAddress) {
+    this.clinicAddress = clinicAddress;
+}
+
+public Long getRating() {
+    return rating;
+}
+
+public void setRating(Long rating) {
+    this.rating = rating;
+}
+
+
 
 @Override
 public String toString() {

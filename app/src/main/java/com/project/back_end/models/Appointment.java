@@ -19,6 +19,7 @@ public class Appointment {
 private Long id;
 
 @NotNull
+@ManyToOne
 private Doctor doctor;
 
 @ManyToOne

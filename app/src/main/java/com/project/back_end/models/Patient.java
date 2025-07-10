@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -65,6 +67,7 @@ private String password;
 //      - The @Pattern(regexp = "^[0-9]{10}$") annotation validates that the phone number must be exactly 10 digits long.
 @NotNull
 @Size(min = 10, max = 15)
+@Pattern(regexp = "^[0-9]{10,15}$", message = "Phone number must be between 10 and 15 digits")
 private String phone;
 
 // 6. 'address' field:
@@ -77,6 +80,7 @@ private String phone;
 @Size(max = 255)
 private String address;
 
+@Past
 private LocalDate dateOfBirth;
 
 private String emergencyContact;

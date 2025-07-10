@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -90,10 +92,14 @@ private String phone;
 @ElementCollection
 private List<String> availableTimes;
 
+@Min(0)
+@Max(50)
 private Long yearsOfExperience;
 
 private String clinicAddress;
 
+@Min(1)
+@Max(5)
 private Long rating;
 
 

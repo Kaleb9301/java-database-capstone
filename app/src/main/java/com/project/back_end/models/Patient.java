@@ -1,5 +1,7 @@
 package com.project.back_end.models;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -75,6 +77,14 @@ private String phone;
 @Size(max = 255)
 private String address;
 
+private LocalDate dateOfBirth;
+
+private String emergencyContact;
+
+private String insuranceProvider;
+
+
+
 
 // 7. Getters and Setters:
 //    - Standard getter and setter methods are provided for all fields: id, name, email, password, phone, and address.
@@ -126,6 +136,30 @@ public String getAddress() {
 public void setAddress(String address) {
     this.address = address;
 }
+
+public LocalDate getDateOfBirth() {
+    return dateOfBirth;
+}
+
+public void setDateOfBirth(LocalDate dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
+}
+public String getEmergencyContact() {
+    return emergencyContact;
+}
+
+public void setEmergencyContact(String emergencyContact) {
+    this.emergencyContact = emergencyContact;
+}
+
+public String getInsuranceProvider() {
+    return insuranceProvider;
+}
+
+public void setInsuranceProvider(String insuranceProvider) {
+    this.insuranceProvider = insuranceProvider;
+}
+
 
 @Override
 public String toString() {

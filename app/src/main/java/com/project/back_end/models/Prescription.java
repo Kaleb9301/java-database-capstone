@@ -66,6 +66,10 @@ private String dosage;
 @Size(max = 200)
 private String doctorNotes;
 
+private Long refillCount;
+
+private String pharmacyName;
+
 // 7. Constructors:
 //    - The class includes a no-argument constructor (default constructor) and a parameterized constructor that initializes the fields: patientName, medication, dosage, doctorNotes, and appointmentId.
 public Prescription(String id, String patientName, String medication, String dosage, String doctorNotes, Long appointmentId) {
@@ -130,6 +134,25 @@ public void setDoctorNotes(String doctorNotes) {
     this.doctorNotes = doctorNotes;
 }
 
+public Long getRefillCount() {
+    return refillCount;
+}
+
+public void setRefillCount(Long refillCount) {
+    this.refillCount = refillCount;
+}
+
+public String getPharmacyName() {
+    return pharmacyName;
+}
+
+public void setPharmacyName(String pharmacyName) {
+    this.pharmacyName = pharmacyName;
+}
+
+
+
+
 @Override
 public String toString() {
     return "Prescription{" +
@@ -139,6 +162,8 @@ public String toString() {
             ", medication='" + medication + '\'' +
             ", dosage='" + dosage + '\'' +
             ", doctorNotes='" + doctorNotes + '\'' +
+            ", refillCount=" + refillCount +
+            ", pharmacyName='" + pharmacyName + '\'' +
             '}';
 }
 
@@ -154,6 +179,9 @@ public boolean equals(Object o) {
     if (!appointmentId.equals(that.appointmentId)) return false;
     if (!medication.equals(that.medication)) return false;
     if (!dosage.equals(that.dosage)) return false;
+    if (refillCount != null ? !refillCount.equals(that.refillCount) : that.refillCount != null) return false;
+    if (pharmacyName != null ? !pharmacyName.equals(that.pharmacyName) : that.pharmacyName != null) return false;
+
     return doctorNotes != null ? doctorNotes.equals(that.doctorNotes) : that.doctorNotes == null;
 }
 
@@ -165,6 +193,8 @@ public int hashCode() {
     result = 31 * result + medication.hashCode();
     result = 31 * result + dosage.hashCode();
     result = 31 * result + (doctorNotes != null ? doctorNotes.hashCode() : 0);
+    result = 31 * result + (refillCount != null ? refillCount.hashCode() : 0);
+    result = 31 * result + (pharmacyName != null ? pharmacyName.hashCode() : 0);
     return result;
 }
 

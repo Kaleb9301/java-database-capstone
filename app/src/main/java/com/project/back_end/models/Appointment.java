@@ -31,6 +31,13 @@ private LocalDateTime appointmentTime;
 @NotNull
 private int status;
 
+private String reasonForVisit;
+
+private String notes;
+
+
+
+
 // 6. 'getEndTime' method:
 //    - Type: private LocalDateTime
 //    - Description:
@@ -112,6 +119,24 @@ public int getStatus() {
 public void setStatus(int status) {
     this.status = status;
 }
+
+public String getReasonForVisit() {
+    return reasonForVisit;
+}
+
+public void setReasonForVisit(String reasonForVisit) {
+    this.reasonForVisit = reasonForVisit;
+}
+
+public String getNotes() {
+    return notes;
+}
+
+public void setNotes(String notes) {
+    this.notes = notes;
+}
+
+
 
 @Override
 public String toString() {

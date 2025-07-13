@@ -21,6 +21,22 @@
         <div class="wrapper">
             <div id="header"></div>
             <div class="main-content">
+              <input type="text" id="searchBar" placeholder="Search Bar for custom output" />
+              <div class="filter-wrapper">
+                <select id="timeFilter">
+                        <option value="">All Times</option>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                    <select id="specialtyFilter">
+                        <option value="">All Specialties</option>
+                        <option value="Cardiologist">Cardiologist</option>
+                        <option value="Dentist">Dentist</option>
+                        <option value="Dermatologist">Dermatologist</option>
+                        <!-- Add more specialties as needed -->
+                    </select>
+              </div>
+              <div id="content"></div>
                 <h2>Patient <span>Record</span></h2>
                 <table id="patientTable">
                   <thead class="table-header">
@@ -38,5 +54,13 @@
         </div>
     </div>
 
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <div id="modal-body"></div>
+    </div>
+
+    </div>
+    <script type="module" src="../js/patientRecord.js" defer></script>
 </body>  
 </html>

@@ -1,3 +1,70 @@
+import { getallAppointments } from './services/appointmentRecordService'
+import { createPatientRow } from './components/patientRow'
+import { renderContent } from './components/renderContent.js';
+
+
+const tableBody = document.getElementById('patientTableBody');
+let selectedDate = new Date().toISOString().split('T')[0];
+const token = localStorage.getItem('token');
+let patientName = null;
+
+document.getElementById('searchBar').addEventListener('input', function() {
+  const patientName = this.value.trim() || "null"; // Use "null" for no filter
+  loadAppointments(selectedDate, patientName, token);
+});
+
+document.getElementById('todayBtn').addEventListener('click', function() {
+  selectedDate = new Date().toISOString().split('T')[0]; // Get today's
+  document.getElementById('datePicker').value = selectedDate; // Update date picker
+  loadAppointments(selectedDate, patientName, token);
+});
+
+document.getElementById('datePicker').addEventListener('change', function() {
+  selectedDate = this.value; // Get the selected date from the date picker
+  loadAppointments(selectedDate, patientName, token);
+});
+
+async function loadAppointments(date, name, token) {
+  try {
+    const appointments = await getallAppointments(date, name, token);
+    tableBody.innerHTML = ''; // Clear existing rows
+
+    if (!appointments || appointments.length === 0) {
+      const messageRow = document.createElement('tr');
+      messageRow.innerHTML = '<td colspan="4">No Appointments found for today.</td>';
+      tableBody.appendChild(messageRow);
+      return;
+    }
+
+    appointments.forEach(appointment => {
+      const patient = {
+        id: appointment.patient.id,
+        name: appointment.patient.name,
+        phone: appointment.patient.phone,
+        email: appointment.patient.email
+      };
+      const row = createPatientRow(patient);
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error("Error loading appointments:", error);
+    const messageRow = document.createElement('tr');
+    messageRow.innerHTML = '<td colspan="4">Error loading appointments. Try again later.</td>';
+    tableBody.appendChild(messageRow);
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderContent();
+  loadAppointments(selectedDate, patientName, token);
+});
+
+
+
+
+
+
 /*
   Import getAllAppointments to fetch appointments from the backend
   Import createPatientRow to generate a table row for each patient appointment

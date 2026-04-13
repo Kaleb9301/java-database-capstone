@@ -15,6 +15,7 @@ async function initializePage() {
     if (!token) throw new Error("No token found");
 
     const patient = await getPatientData(token);
+    console.log("Fetched patient data:", patient);
     if (!patient) throw new Error("Failed to fetch patient details");
 
     patientId = Number(patient.id);

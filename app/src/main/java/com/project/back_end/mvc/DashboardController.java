@@ -1,6 +1,10 @@
 package com.project.back_end.mvc;
 
+
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +33,8 @@ public String adminDashboard(@PathVariable String token) {
 //    - Validates the token using the shared service for the `"admin"` role.
 //    - If the token is valid (i.e., no errors returned), forwards the user to the `"admin/adminDashboard"` view.
 //    - If invalid, redirects to the root URL, likely the login or home page.
-    String validationResult = service.validateToken(token, "admin");
-    if (validationResult.isEmpty()) {
+    ResponseEntity<Map<String, String>> validationResult = service.validateToken(token, "admin");
+    if (validationResult.getStatusCode() == HttpStatus.OK) {
         return "admin/adminDashboard";
     } else {
         return "redirect:/";
@@ -46,8 +50,8 @@ public String adminDashboard(@PathVariable String token) {
 //    - If the token is invalid, redirects to the root URL.
 @GetMapping("/doctorDashboard/{token}")
 public String doctorDashboard(@PathVariable String token) {
-    String validationResult = service.validateToken(token, "doctor");
-    if (validationResult.isEmpty()) {
+    ResponseEntity<Map<String, String>> validationResult = service.validateToken(token, "doctor");
+    if (validationResult.getStatusCode() == HttpStatus.OK) {
         return "doctor/doctorDashboard";
     } else {
         return "redirect:/";

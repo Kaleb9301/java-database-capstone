@@ -1,10 +1,10 @@
 // Import necessary functions from the service layer
-import { getDoctors, deleteDoctor, saveDoctor, filterDoctors } from '../services/doctorServices.js';
+import { getDoctors, deleteDoctor, saveDoctor, filterDoctors } from './services/doctorServices.js';
 
 // Import the modal utility function
-import { openModal } from '../utils/modal.js';
+import { openModal } from './components/modals.js';
 
-import { createDoctorCard } from '../components/doctorCard.js';
+import { createDoctorCard } from './components/doctorCard.js';
 
 
 
@@ -16,9 +16,12 @@ import { createDoctorCard } from '../components/doctorCard.js';
 
   // Attach a click listener to the "Add Doctor" button
   // When clicked, it opens a modal form using openModal('addDoctor')
-  document.getElementById('addDocBtn').addEventListener('click', () => {
-    openModal('addDoctor');
-  });
+  const addDocBtn = document.getElementById('addDocBtn');
+  if (addDocBtn) {
+    addDocBtn.addEventListener('click', () => {
+      openModal('addDoctor');
+    });
+  }
 
 
   // When the DOM is fully loaded:
@@ -56,9 +59,19 @@ import { createDoctorCard } from '../components/doctorCard.js';
 
   // Attach 'input' and 'change' event listeners to the search bar and filter dropdowns
   // On any input change, call filterDoctorsOnChange()
-  document.getElementById('searchBar').addEventListener('input', filterDoctorsOnChange);
-  document.getElementById('timeFilter').addEventListener('change', filterDoctorsOnChange);
-  document.getElementById('specialtyFilter').addEventListener('change', filterDoctorsOnChange);
+  const searchBar = document.getElementById('searchBar');
+  const timeFilter = document.getElementById('timeFilter');
+  const specialtyFilter = document.getElementById('specialtyFilter');
+
+  if (searchBar) {
+    searchBar.addEventListener('input', filterDoctorsOnChange);
+  }
+  if (timeFilter) {
+    timeFilter.addEventListener('change', filterDoctorsOnChange);
+  }
+  if (specialtyFilter) {
+    specialtyFilter.addEventListener('change', filterDoctorsOnChange);
+  }
 
   
   // Function: filterDoctorsOnChange

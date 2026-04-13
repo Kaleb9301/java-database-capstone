@@ -2,8 +2,7 @@ package com.project.back_end.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.annotation.Generated;
-import jakarta.annotation.sql.DataSourceDefinition;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

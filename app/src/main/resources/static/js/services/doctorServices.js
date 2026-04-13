@@ -1,9 +1,9 @@
 
   // Import the base API URL from the config fil
-  import { BASE_API_URL } from '../config.js';
+  import { API_BASE_URL } from '../config/config.js';
 
   // Define a constant DOCTOR_API to hold the full endpoint for doctor-related actions
-  const DOCTOR_API = `${BASE_API_URL}/doctor`;
+  const DOCTOR_API = `${API_BASE_URL}/doctor`;
   
 
 
@@ -107,8 +107,12 @@
   //   - If yes, parse and return the doctor data
   //   - If no, log the error and return an object with an empty 'doctors' array
     const response = await fetch(`${DOCTOR_API}/filter/${encodeURIComponent(name)}/${encodeURIComponent(time)}/${encodeURIComponent(specialty)}`);
+    console.log("Filter Doctors Response Status:", response.status);
+    console.log(`${DOCTOR_API}/filter/${encodeURIComponent(name)}/${encodeURIComponent(time)}/${encodeURIComponent(specialty)}`);
+    console.log("Filter Doctors Response Status:", response.status);
     if (response.ok) {
       const data = await response.json();
+      console.log("Filtered Doctors Data:", data);
       return data;
     } else {
       console.error('Error filtering doctors:', response.statusText);

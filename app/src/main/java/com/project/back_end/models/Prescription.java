@@ -2,7 +2,7 @@ package com.project.back_end.models;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.annotation.Generated;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

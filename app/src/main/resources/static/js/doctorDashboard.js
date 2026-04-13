@@ -1,8 +1,8 @@
 
   // Import getAllAppointments to fetch appointments from the backend
-  import { getAllAppointments } from '../services/appointmentService.js';
+  import { getAllAppointments } from './services/appointmentRecordService.js';
   // Import createPatientRow to generate a table row for each patient appointment
-  import { createPatientRow } from '../components/patientRow.js';
+  import { createPatientRow } from './components/patientRows.js';
 
 
   // Get the table body where patient rows will be added
@@ -61,11 +61,14 @@
   // Purpose: Fetch and display appointments based on selected date and optional patient name
 
   // Step 1: Call getAllAppointments with selectedDate, patientName, and token
-  const appointments = await getAllAppointments(selectedDate, patientName, token);
   try {
+    const result = await getAllAppointments(selectedDate, patientName, token);
+    const appointments = Array.isArray(result)
+      ? result
+      : (result?.appointments || result?.data || []);
     // Step 2: Clear the table body content before rendering new rows
     tableBody.innerHTML = '';
-    if (appointments.length === 0) {
+      if (!Array.isArray(appointments) || appointments.length === 0) {
   // Step 3: If no appointments are returned:
       //   - Display a message row: "No Appointments found for today."
       const messageRow = createPatientRow({
@@ -94,6 +97,7 @@
   // Step 5: Catch and handle any errors during fetch:
   //   - Show a message row: "Error loading appointments. Try again later."
   } catch (error) {
+    console.error("Error loading appointments:", error);
     const messageRow = createPatientRow({
       id: null,
       name: 'Error loading appointments. Try again later.',

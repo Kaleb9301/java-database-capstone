@@ -1,12 +1,12 @@
 
 // Import the overlay function for booking appointments from loggedPatient.js
-import { showBookingOverlay } from '../pages/loggedPatient.js';
+import { showBookingOverlay } from '../loggedPatient.js';
 
 //   Import the deleteDoctor API function to remove doctors (admin role) from doctorServices.js
 import { deleteDoctor } from '../services/doctorServices.js';
 
 //   Import function to fetch patient details (used during booking) from patientServices.js
-import { getPatientByToken } from '../services/patientServices.js';
+import { getPatientData } from '../services/patientServices.js';
 
 
 
@@ -33,7 +33,7 @@ export function createDoctorCard(doctor) {
     email.textContent = doctor.email;
 //     Create and list available appointment times
     const availability = document.createElement("ul");
-    doctor.availability.forEach(time => {
+    (doctor.availability || []).forEach(time => {
         const listItem = document.createElement("li");
         listItem.textContent = time;
         availability.appendChild(listItem);

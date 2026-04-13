@@ -1,5 +1,24 @@
 package com.project.back_end.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.project.back_end.models.Prescription;
+import com.project.back_end.services.AppointmentService;
+import com.project.back_end.services.PrescriptionService;
+import com.project.back_end.services.Service;
+
+
+
+@RestController
+@RequestMapping("${api.path}" + "prescription")
 public class PrescriptionController {
     
 // 1. Set Up the Controller Class:
@@ -12,6 +31,14 @@ public class PrescriptionController {
 //    - Inject `PrescriptionService` to handle logic related to saving and fetching prescriptions.
 //    - Inject the shared `Service` class for token validation and role-based access control.
 //    - Inject `AppointmentService` to update appointment status after a prescription is issued.
+@Autowired
+private PrescriptionService prescriptionService;
+
+@Autowired
+private Service service;
+
+@Autowired
+private AppointmentService appointmentService;
 
 
 // 3. Define the `savePrescription` Method:
@@ -20,6 +47,16 @@ public class PrescriptionController {
 //    - Validates the token for the `"doctor"` role.
 //    - If the token is valid, updates the status of the corresponding appointment to reflect that a prescription has been added.
 //    - Delegates the saving logic to `PrescriptionService` and returns a response indicating success or failure.
+@PostMapping("/{token}")
+public ResponseEntity<?> savePrescription(@RequestBody Prescription prescription,
+                                          @PathVariable String token) {
+    ResponseEntity<?> validationResult = service.validateToken(token, "doctor");
+    if (validationResult.getStatusCode() != HttpStatus.OK) {
+        return validationResult;
+    }
+    
+    return prescriptionService.savePrescription(prescription);
+}
 
 
 // 4. Define the `getPrescription` Method:
@@ -28,6 +65,16 @@ public class PrescriptionController {
 //    - Validates the token for the `"doctor"` role using the shared service.
 //    - If the token is valid, fetches the prescription using the `PrescriptionService`.
 //    - Returns the prescription details or an appropriate error message if validation fails.
+@GetMapping("/{appointmentId}/{token}")
+public ResponseEntity<?> getPrescription(@PathVariable Long appointmentId,
+                                         @PathVariable String token) {
+    ResponseEntity<?> validationResult = service.validateToken(token, "doctor");
+    if (validationResult.getStatusCode() != HttpStatus.OK) {
+        return validationResult;
+    }
+    
+    return prescriptionService.getPrescription(appointmentId);
 
+}
 
 }

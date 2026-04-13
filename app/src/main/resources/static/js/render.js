@@ -4,8 +4,12 @@ function selectRole(role) {
   setRole(role);
   const token = localStorage.getItem('token');
   if (role === "admin") {
+    console.log("Selecting admin role");
+    console.log("Token during admin role selection:", token);
     if (token) {
+      console.log("Admin token exists");
       window.location.href = `/adminDashboard/${token}`;
+      console.log("Admin token found, redirecting to admin dashboard.");
     }
   } if (role === "patient") {
     window.location.href = "/pages/patientDashboard.html";

@@ -45,6 +45,7 @@ export async function patientLogin(data) {
 export async function getPatientData(token) {
   try {
     const response = await fetch(`${PATIENT_API}/${token}`);
+    console.log("Response from getPatientData:", response);
     const data = await response.json();
     if (response.ok) return data.patient;
     return null;
